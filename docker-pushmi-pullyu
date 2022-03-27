@@ -140,8 +140,7 @@ else
 fi
 
 registry_port=$(
-  registry_location=$(docker port "$registry_container_name" 5000)
-  echo "${registry_location##0.0.0.0:}"
+  docker port "$registry_container_name" 5000 | awk -F: 'NR == 1 {print $NF-1}'
 )
 
 wait-for check-registry "$registry_host:$registry_port"
